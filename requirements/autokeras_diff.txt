@@ -1,0 +1,35 @@
+diff --git a/autokeras/graph.py b/autokeras/graph.py
+--- a/autokeras/graph.py
++++ b/autokeras/graph.py
+@@ -279,16 +279,14 @@ class Graph(keras_tuner.HyperModel, serializable.Serializable):
+
+     def _compile_keras_model(self, hp, model):
+         # Specify hyperparameters from compile(...)
+-        optimizer_name = hp.Choice(
++        optimizer_name = hp.Fixed(
+             "optimizer",
+-            ["adam", "sgd", "adam_weight_decay"],
+-            default="adam",
++            value='adam',
+         )
+         # TODO: add adadelta optimizer when it can optimize embedding layer on GPU.
+-        learning_rate = hp.Choice(
+-            "learning_rate", [1e-1, 1e-2, 1e-3, 1e-4, 2e-5, 1e-5], default=1e-3
++        learning_rate = hp.Fixed(
++            "learning_rate", value=1E-3,
+         )
+-
+         if optimizer_name == "adam":
+             optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+         elif optimizer_name == "sgd":
+diff --git a/autokeras/tuners/greedy.py b/autokeras/tuners/greedy.py
+--- a/autokeras/tuners/greedy.py
++++ b/autokeras/tuners/greedy.py
+@@ -96,6 +96,7 @@ class GreedyOracle(keras_tuner.Oracle):
+         super().__init__(seed=seed, **kwargs)
+         self.initial_hps = initial_hps or []
+         self._tried_initial_hps = [False] * len(self.initial_hps)
++        self._max_collisions = 100; print('self._max_collisions set to 100')
+
+     def get_state(self):
+         state = super().get_state()
