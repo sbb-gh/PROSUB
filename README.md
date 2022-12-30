@@ -14,7 +14,7 @@ Please consider citing:<br/>
     year = {2022}
 }
 ```
-If you have any comments or suggestions, contact:<br/>
+If you have any comments or suggestions, contact:
 stefano.blumberg.17@ucl.ac.uk
 
 ## Installation and Requirements
